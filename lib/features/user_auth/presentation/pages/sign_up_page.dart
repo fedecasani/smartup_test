@@ -14,7 +14,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-
+  bool _isSigningUp = false;
   final FirebaseAuthService _auth = FirebaseAuthService();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
@@ -76,7 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     color: Colors.blue,
                   ),
                   child: Center(
-                    child: Text(
+                    child: _isSigningUp ? CircularProgressIndicator(color: Colors.white,): Text(
                       "Sign Up",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
@@ -114,11 +114,18 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _signUp() async {
+    setState(() {
+      _isSigningUp = true;
+    });
     String username = _usernameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
 
     User? user = await _auth.signUpWithEmailAndPassword(email, password);
+
+    setState(() {
+      _isSigningUp = false;
+    });
 
     if (user != null) {
       print("User is successfully created");
@@ -127,5 +134,5 @@ class _SignUpPageState extends State<SignUpPage> {
     } else {
       print("Some error occured");
     }
-}
+  }
 }

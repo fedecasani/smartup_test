@@ -13,6 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isSigning = false;
 
   final FirebaseAuthService _auth = FirebaseAuthService();
   TextEditingController _emailController = TextEditingController();
@@ -25,7 +26,6 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.blue,
                   ),
                   child: Center(
-                    child: Text(
+                    child: _isSigning ? CircularProgressIndicator(color: Colors.white): Text(
                       "Login",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
@@ -102,11 +102,20 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
   void _signIn() async {
+
+    setState(() {
+      _isSigning = true;
+    });
     String email = _emailController.text;
     String password = _passwordController.text;
 
     User? user = await _auth.signInWithEmailAndPassword(email, password);
+
+    setState(() {
+      _isSigning = false;
+    });
 
     if (user != null) {
       print("User is successfully signedIn");
@@ -115,5 +124,5 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       print("Some error occured");
     }
-}
+  }
 }
