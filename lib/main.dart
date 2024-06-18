@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       title: 'Twitter',
       routes: {
         '/': (context) => SplashScreen(
-              child: LoginPage(),
+              child: SignUpPage(),
             ),
         '/login': (context) => LoginPage(),
         '/register': (context) => SignUpPage(),
