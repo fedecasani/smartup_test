@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "488939344201",
+    "project_id": "smartup-test-d823e",
+    "storage_bucket": "smartup-test-d823e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488939344201:android:dbc5bfca1eb0a502688a98",
+        "android_client_info": {
+          "package_name": "com.example.smartup_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYFBX69TutCsDkjnsZEXqSQnEph6CackE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
