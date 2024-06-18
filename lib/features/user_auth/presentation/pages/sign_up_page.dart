@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartup_test/features/user_auth/presentation/pages/login_page.dart';
 import 'package:smartup_test/features/user_auth/presentation/widgets/form_container_widget.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -46,8 +47,27 @@ class SignUpPage extends StatelessWidget {
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
-              )
-            ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Already have an account?"),
+                  SizedBox(width: 5),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                    },
+                    child: Text(
+                      "Login",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  )
+                ],
+          )],
           ),
         ),
       ),
