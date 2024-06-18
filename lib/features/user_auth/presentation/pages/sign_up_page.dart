@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:smartup_test/features/user_auth/presentation/widgets/form_container_widget.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Sign Up'),
         backgroundColor: Colors.blue,
       ),
       body: Center(
@@ -18,12 +18,12 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Login",
+                "Sign Up",
                 style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 30),
               FormContainerWidget(
-                hintText: "Email",
+                hintText: "Username",
                 isPasswordField: false,
               ),
               SizedBox(height: 10),
@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    "Login",
+                    "Sign Up",
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
