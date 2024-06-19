@@ -33,9 +33,18 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[900],
+      
       appBar: AppBar(
-        title: const Text('Login', style: TextStyle(color: Colors.white),),
+        title: Center(
+          child: FaIcon(
+            FontAwesomeIcons.twitter, // Ícono de Twitter
+            color: Colors.blue,
+            size: 26.0,
+          ),
+        ),
         backgroundColor: Colors.grey[900],
+                automaticallyImplyLeading: false, // Desactiva el botón de "volver" automático
+
       ),
       body: Center(
         child: Padding(
