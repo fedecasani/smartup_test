@@ -133,7 +133,6 @@ class _SignUpDetailsPageState extends State<SignUpDetailsPage> {
     setState(() {
       _isSigningUp = true;
     });
-    String username = _usernameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
 

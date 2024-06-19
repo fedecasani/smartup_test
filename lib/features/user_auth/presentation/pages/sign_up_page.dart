@@ -4,7 +4,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:smartup_test/features/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:smartup_test/features/user_auth/presentation/pages/login_page.dart';
 import 'package:smartup_test/global/toast.dart';
 import 'package:smartup_test/features/user_auth/presentation/pages/sign_up_details_page.dart';
@@ -17,7 +16,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final FirebaseAuthService _auth = FirebaseAuthService();
 
   @override
   Widget build(BuildContext context) {
