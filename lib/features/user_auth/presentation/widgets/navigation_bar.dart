@@ -3,18 +3,16 @@ import 'package:flutter/material.dart';
 class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
-  final Color backgroundColor; // Cambié a un color obligatorio
 
   CustomBottomNavigationBar({
     required this.selectedIndex,
     required this.onItemTapped,
-    required this.backgroundColor, // Asegúrate de pasar el color de fondo
   });
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      backgroundColor: backgroundColor,
+      backgroundColor: Colors.black87,
       currentIndex: selectedIndex,
       onTap: onItemTapped,
       selectedItemColor: Colors.blue,
@@ -24,18 +22,22 @@ class CustomBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
+          backgroundColor: Colors.grey[900],
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.search),
           label: 'Search',
+          backgroundColor: Colors.grey[900],
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications),
           label: 'Notifications',
+          backgroundColor: Colors.grey[900],
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.message),
           label: 'Messages',
+          backgroundColor: Colors.grey[900],
         ),
       ],
     );

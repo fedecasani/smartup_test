@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smartup_test/features/user_auth/presentation/widgets/navigation_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Importa el paquete
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -34,19 +35,21 @@ class _HomePageState extends State<HomePage> {
             );
           },
         ),
-        title: Image.asset(
-          'assets/twitter_icon.png',
-          height: 40,
+        title: FaIcon(
+          FontAwesomeIcons.twitter, // Ícono de Twitter
+          color: Colors.blue,
+          size: 26.0,
         ),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Text(
-              '✨',
-              style: TextStyle(fontSize: 24, color: Colors.blue),
+            icon: FaIcon(
+              FontAwesomeIcons.starHalfAlt, // Ícono de estrella sólida
+              color: Colors.blue,
+              size: 24.0,
             ),
             onPressed: () {
-              // Acción al presionar el emoji de estrella brillante
+              // Acción al presionar el icono de estrella brillante
             },
           ),
         ],
@@ -98,8 +101,41 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
-        backgroundColor: Colors.black, // Color de fondo personalizado para el BottomNavigationBar
       ),
+      floatingActionButton: SizedBox(
+        width: 50, // Ancho del botón
+        height: 50, // Alto del botón
+        child: FloatingActionButton(
+          onPressed: () {
+            // Acción al presionar el botón de pluma
+          },
+          backgroundColor: Colors.blue,
+          elevation: 2.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28), // Radio del borde del botón
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              FaIcon(
+                FontAwesomeIcons.feather, // Icono de pluma
+                color: Colors.white, // Color del ícono
+                size: 18.0, // Tamaño del ícono
+              ),
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: FaIcon(
+                  FontAwesomeIcons.plus, // Icono de signo más
+                  color: Colors.white, // Color del ícono
+                  size: 10.0, // Tamaño del ícono
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat, // Ubicación del botón en la esquina inferior derecha
     );
   }
 }
