@@ -30,12 +30,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
           backgroundColor: Colors.grey[900],
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.notifications),
+          icon: Icon(Icons.notifications_none_outlined),
           label: 'Notifications',
           backgroundColor: Colors.grey[900],
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.message),
+          icon: Icon(Icons.mail_outline_rounded),
           label: 'Messages',
           backgroundColor: Colors.grey[900],
         ),
