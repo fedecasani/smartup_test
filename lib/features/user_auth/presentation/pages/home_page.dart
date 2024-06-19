@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                 title: Text('Logout', style: TextStyle(color: Colors.red)),
                 onTap: () {
                   FirebaseAuth.instance.signOut();
-                  Navigator.pushNamed(context, "/login");
+                  Navigator.pushNamed(context, "/register");
                 },
               ),
             ],
