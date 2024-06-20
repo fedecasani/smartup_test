@@ -34,14 +34,17 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Text(
               'Welcome to Twitter',
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 18.0),
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0),
             ),
             SizedBox(height: 10),
             FaIcon(
-          FontAwesomeIcons.twitter, // Ícono de Twitter
-          color: Colors.blue,
-          size: 26.0,
-        ),
+              FontAwesomeIcons.twitter, // Ícono de Twitter
+              color: Colors.blue,
+              size: 26.0,
+            ),
           ],
         ),
       ),

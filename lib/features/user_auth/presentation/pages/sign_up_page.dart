@@ -16,7 +16,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,7 +147,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        _launchURL('https://x.com/en/privacy/previous/version_16');
+                        _launchURL(
+                            'https://x.com/en/privacy/previous/version_16');
                       },
                       child: Text(
                         "Terms, Privacy Policy",
@@ -165,7 +165,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        _launchURL('https://help.x.com/en/rules-and-policies/x-cookies');
+                        _launchURL(
+                            'https://help.x.com/en/rules-and-policies/x-cookies');
                       },
                       child: Text(
                         "Cookie Use.",

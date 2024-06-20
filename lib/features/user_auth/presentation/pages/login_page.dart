@@ -133,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
       showToast(message: "Please enter a valid email");
     }
   }
+
   Future<void> _launchURL(String url) async {
     try {
       await launch(url, forceSafariVC: false, forceWebView: false);

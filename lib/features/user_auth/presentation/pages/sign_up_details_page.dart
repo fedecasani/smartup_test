@@ -57,7 +57,8 @@ class _SignUpDetailsPageState extends State<SignUpDetailsPage> {
           ],
         ),
         backgroundColor: Colors.grey[900],
-        automaticallyImplyLeading: false, // Desactiva el botón de "volver" automático
+        automaticallyImplyLeading:
+            false, // Desactiva el botón de "volver" automático
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -97,7 +98,9 @@ class _SignUpDetailsPageState extends State<SignUpDetailsPage> {
                   hintText: "Password",
                   isPasswordField: true,
                 ),
-                SizedBox(height: 80), // Añadir un espacio para evitar que los campos se superpongan con el botón
+                SizedBox(
+                    height:
+                        80), // Añadir un espacio para evitar que los campos se superpongan con el botón
               ],
             ),
           ),
@@ -113,10 +116,10 @@ class _SignUpDetailsPageState extends State<SignUpDetailsPage> {
               ? SizedBox(
                   width: 20,
                   height: 15,
-                child: CircularProgressIndicator(
+                  child: CircularProgressIndicator(
                     color: Colors.white,
                   ),
-              )
+                )
               : Text(
                   "Next",
                   style: TextStyle(

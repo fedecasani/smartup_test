@@ -49,7 +49,8 @@ class _PasswordInputPageState extends State<PasswordInputPage> {
             color: Colors.lightBlue,
           ),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/register'); // Navegar a la pantalla de registro
+            Navigator.pushReplacementNamed(
+                context, '/register'); // Navegar a la pantalla de registro
           },
         ),
       ),
@@ -81,15 +82,18 @@ class _PasswordInputPageState extends State<PasswordInputPage> {
         width: 65,
         height: 35,
         child: FloatingActionButton(
-          onPressed: _signIn,
-          backgroundColor: Colors.blue,
-          child: _isSigning
-              ? SizedBox(
-                width: 20,
-                height: 15,
-                child: CircularProgressIndicator(color: Colors.white))
-              : Text("Log in", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)
-        ),
+            onPressed: _signIn,
+            backgroundColor: Colors.blue,
+            child: _isSigning
+                ? SizedBox(
+                    width: 20,
+                    height: 15,
+                    child: CircularProgressIndicator(color: Colors.white))
+                : Text(
+                    "Log in",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  )),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
@@ -101,8 +105,7 @@ class _PasswordInputPageState extends State<PasswordInputPage> {
     });
 
     String password = _passwordController.text;
-    User? user =
-        await _auth.signInWithEmailAndPassword(widget.email, password);
+    User? user = await _auth.signInWithEmailAndPassword(widget.email, password);
 
     setState(() {
       _isSigning = false;
