@@ -62,7 +62,8 @@ class _HomePageState extends State<HomePage> {
         id: FirebaseFirestore.instance.collection('tweets').doc().id,
         content: content,
         userId: user.uid,
-        userEmail: user.email ?? '', // Asignar el correo electrónico del usuario
+        userEmail:
+            user.email ?? '', // Asignar el correo electrónico del usuario
         timestamp: Timestamp.now(),
       );
       await FirebaseFirestore.instance
@@ -73,43 +74,80 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _showTweetDialog() {
-    String tweetContent = '';
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          title: Text('Create Tweet', style: TextStyle(color: Colors.white)),
-          content: TextField(
-            onChanged: (value) {
-              tweetContent = value;
+  String tweetContent = '';
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.grey[900],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        title: Text(
+          'Create Tweet',
+          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 20.0),
+        ),
+        content: Container(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(height: 10.0),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                child: Form(
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'What\'s happening?',
+                      hintStyle: TextStyle(color: Colors.white70),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                    ),
+                    maxLines: 3,
+                    onChanged: (value) {
+                      tweetContent = value;
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.0),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
             },
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              hintText: 'What\'s happening?',
-              hintStyle: TextStyle(color: Colors.white54),
-              border: OutlineInputBorder(),
+            child: Text(
+              'Cancel',
+              style: TextStyle(color: Colors.white, fontSize: 16.0),
             ),
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel', style: TextStyle(color: Colors.blue)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+          TextButton(
+            onPressed: () {
+              _createTweet(tweetContent);
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'Tweet',
+              style: TextStyle(color: Colors.blue, fontSize: 16.0),
             ),
-            TextButton(
-              child: Text('Tweet', style: TextStyle(color: Colors.blue)),
-              onPressed: () {
-                _createTweet(tweetContent);
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   String _formatTimestamp(Timestamp timestamp) {
     final now = DateTime.now();
@@ -196,36 +234,82 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           Container(
-            height: 100.0,
-            color: Colors.grey[900],
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _stories.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 31.0,
-                        backgroundColor: Colors.blue,
-                        child: CircleAvatar(
-                          radius: 28.0,
-                          backgroundImage:
-                              NetworkImage(_stories[index]['imageUrl']!),
-                        ),
-                      ),
-                      SizedBox(height: 5.0),
-                      Text(
-                        _stories[index]['name']!,
-                        style: TextStyle(color: Colors.white, fontSize: 12.0),
-                      ),
-                    ],
+  height: 100.0,
+  color: Colors.grey[900],
+  child: ListView.builder(
+    scrollDirection: Axis.horizontal,
+    itemCount: _stories.length + 1, // +1 para el círculo de perfil con "Add"
+    itemBuilder: (context, index) {
+      if (index == 0) {
+        // Primer elemento: círculo de perfil con "Add"
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 31.0,
+                    backgroundColor: Colors.blue,
+                    child: CircleAvatar(
+                      radius: 28.0,
+                      // Aquí puedes colocar la imagen de perfil del usuario actual
+                      // Si no tienes una imagen específica, puedes usar un ícono predeterminado.
+                      backgroundImage: NetworkImage('URL_DE_LA_IMAGEN'),
+                    ),
                   ),
-                );
-              },
-            ),
+                  SizedBox(height: 5.0),
+                  Text(
+                    'Add',
+                    style: TextStyle(color: Colors.white, fontSize: 12.0),
+                  ),
+                ],
+              ),
+              Positioned(
+                right: 0,
+                bottom: 20, // Ajuste aquí para subir el icono "Add"
+                child: CircleAvatar(
+                  radius: 12,
+                  backgroundColor: Colors.blue,
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 16.0,
+                  ),
+                ),
+              ),
+            ],
           ),
+        );
+      } else {
+        // Elementos siguientes: historias
+        final storyIndex = index - 1;
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 31.0,
+                backgroundColor: Colors.blue,
+                child: CircleAvatar(
+                  radius: 28.0,
+                  backgroundImage: NetworkImage(_stories[storyIndex]['imageUrl']!),
+                ),
+              ),
+              SizedBox(height: 5.0),
+              Text(
+                _stories[storyIndex]['name']!,
+                style: TextStyle(color: Colors.white, fontSize: 12.0),
+              ),
+            ],
+          ),
+        );
+      }
+    },
+  ),
+),
+
           Divider(
             color: Colors.grey[800],
             thickness: 1.0,
@@ -253,79 +337,80 @@ class _HomePageState extends State<HomePage> {
                     .toList();
 
                 return ListView.builder(
-  itemCount: tweets.length,
-  itemBuilder: (context, index) {
-    final tweet = tweets[index];
-    return Card(
-      elevation: 3,
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      color: Colors.grey[850],
-      child: ListTile(
-        contentPadding: EdgeInsets.all(10),
-        leading: CircleAvatar(
-          radius: 30,
-          backgroundImage: _stories.isNotEmpty
-              ? NetworkImage(_stories[index % _stories.length]['imageUrl']!)
-              : AssetImage('assets/placeholder_image.png'), // Placeholder or default image
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  tweet.userEmail,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: Text(
-                    _formatTimestamp(tweet.timestamp),
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 5),
-            Text(
-              tweet.content,
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
-        ),
-        subtitle: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            _buildIconWithCount(FontAwesomeIcons.comment),
-            SizedBox(width: 10),
-            _buildIconWithCount(FontAwesomeIcons.retweet),
-            SizedBox(width: 10),
-            _buildIconWithCount(FontAwesomeIcons.heart),
-            SizedBox(width: 10),
-            IconButton(
-              icon: FaIcon(
-                FontAwesomeIcons.arrowUpFromBracket,
-                color: Colors.white,
-                size: 16.0,
-              ),
-              onPressed: () {
-                // Action when share icon is pressed
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  },
-);
-
+                  itemCount: tweets.length,
+                  itemBuilder: (context, index) {
+                    final tweet = tweets[index];
+                    return Card(
+                      elevation: 3,
+                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      color: Colors.grey[850],
+                      child: ListTile(
+                        contentPadding: EdgeInsets.all(10),
+                        leading: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: _stories.isNotEmpty
+                              ? NetworkImage(_stories[index % _stories.length]
+                                  ['imageUrl']!)
+                              : AssetImage(
+                                  'assets/placeholder_image.png'), // Placeholder or default image
+                        ),
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  tweet.userEmail,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 16.0),
+                                  child: Text(
+                                    _formatTimestamp(tweet.timestamp),
+                                    style: TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              tweet.content,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                        subtitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            _buildIconWithCount(FontAwesomeIcons.comment),
+                            SizedBox(width: 10),
+                            _buildIconWithCount(FontAwesomeIcons.retweet),
+                            SizedBox(width: 10),
+                            _buildIconWithCount(FontAwesomeIcons.heart),
+                            SizedBox(width: 10),
+                            IconButton(
+                              icon: FaIcon(
+                                FontAwesomeIcons.arrowUpFromBracket,
+                                color: Colors.white,
+                                size: 16.0,
+                              ),
+                              onPressed: () {
+                                // Action when share icon is pressed
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
             ),
           ),
