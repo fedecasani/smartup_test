@@ -50,7 +50,7 @@ class _PasswordInputPageState extends State<PasswordInputPage> {
           ),
           onPressed: () {
             Navigator.pushReplacementNamed(
-                context, '/register'); // Navegar a la pantalla de registro
+                context, '/register');
           },
         ),
       ),

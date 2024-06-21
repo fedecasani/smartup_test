@@ -48,7 +48,7 @@ class _SignUpDetailsPageState extends State<SignUpDetailsPage> {
               padding: const EdgeInsets.only(top: 10),
               child: Center(
                 child: FaIcon(
-                  FontAwesomeIcons.twitter, // Ícono de Twitter
+                  FontAwesomeIcons.twitter,
                   color: Colors.blue,
                   size: 26.0,
                 ),
@@ -58,7 +58,7 @@ class _SignUpDetailsPageState extends State<SignUpDetailsPage> {
         ),
         backgroundColor: Colors.grey[900],
         automaticallyImplyLeading:
-            false, // Desactiva el botón de "volver" automático
+            false,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -100,7 +100,7 @@ class _SignUpDetailsPageState extends State<SignUpDetailsPage> {
                 ),
                 SizedBox(
                     height:
-                        80), // Añadir un espacio para evitar que los campos se superpongan con el botón
+                        80),
               ],
             ),
           ),

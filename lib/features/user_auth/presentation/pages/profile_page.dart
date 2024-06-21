@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -38,9 +40,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
         final uploadTask = storageRef.putFile(_imageFile!);
 
-        // Monitor the upload progress
         uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
-          print('Task state: ${snapshot.state}'); // paused, running, complete
+          print('Task state: ${snapshot.state}');
           print('Progress: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100} %');
         }, onError: (e) {
           print(uploadTask.snapshot);
@@ -53,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
         await user.updatePhotoURL(downloadUrl);
         await user.reload();
-        setState(() {}); // Update UI with new photo URL
+        setState(() {});
       }
     } catch (e) {
       print('Error uploading image: $e');
@@ -69,12 +70,12 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.blue),
+          icon: const Icon(Icons.arrow_back, color: Colors.blue),
           onPressed: () {
             Navigator.pushNamed(context, "/home");
           },
         ),
-        title: Text('Profile', style: TextStyle(color: Colors.blue)),
+        title: const Text('Profile', style: TextStyle(color: Colors.blue)),
         centerTitle: true,
       ),
       body: Padding(
@@ -93,23 +94,23 @@ class _ProfilePageState extends State<ProfilePage> {
                     bottom: 0,
                     right: 0,
                     child: IconButton(
-                      icon: Icon(Icons.camera_alt, color: Colors.blue),
+                      icon: const Icon(Icons.camera_alt, color: Colors.blue),
                       onPressed: _pickImage,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Text(
                 user?.displayName ?? 'N/A',
-                style: TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.bold),
+                style: const TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Text(
                 user?.email ?? 'No email',
-                style: TextStyle(color: Colors.white70, fontSize: 16.0),
+                style: const TextStyle(color: Colors.white70, fontSize: 16.0),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
@@ -118,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
                 ),
-                child: Text('Logout', style: TextStyle(color: Colors.white)),
+                child: const Text('Logout', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),

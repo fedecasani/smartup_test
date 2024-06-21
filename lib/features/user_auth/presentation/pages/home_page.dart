@@ -6,8 +6,8 @@ import 'package:smartup_test/features/user_auth/presentation/widgets/navigation_
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:intl/intl.dart'; // Importa el paquete para formatear fechas
-import 'dart:math'; // Importa el paquete para generar números aleatorios
+import 'package:intl/intl.dart';
+import 'dart:math';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -37,7 +37,6 @@ class _HomePageState extends State<HomePage> {
     final currentUser = FirebaseAuth.instance.currentUser;
     List<Map<String, String>> stories = [];
     if (currentUser != null) {
-      // Obtener imagen del usuario actual
       final imageUrl =
           currentUser.photoURL ?? 'https://via.placeholder.com/150';
       stories.add({
@@ -74,7 +73,7 @@ class _HomePageState extends State<HomePage> {
         userId: user.uid,
         userEmail: user.email ?? '',
         userProfileImageUrl:
-            user.photoURL ?? 'https://via.placeholder.com/150', // Nuevo campo
+            user.photoURL ?? 'https://via.placeholder.com/150',
         timestamp: Timestamp.now(),
       );
       await FirebaseFirestore.instance
@@ -206,7 +205,6 @@ class _HomePageState extends State<HomePage> {
               size: 24.0,
             ),
             onPressed: () {
-              // Acción al presionar el icono de estrella brillante
             },
           ),
         ],
@@ -261,7 +259,6 @@ class _HomePageState extends State<HomePage> {
               itemCount: _stories.length,
               itemBuilder: (context, index) {
                 if (index == 0) {
-                  // Primer elemento: círculo de perfil con "Add"
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Stack(
@@ -274,7 +271,6 @@ class _HomePageState extends State<HomePage> {
                               backgroundColor: Colors.blue,
                               child: CircleAvatar(
                                 radius: 28.0,
-                                // Mostrar la imagen del usuario actual aquí
                                 backgroundImage:
                                     NetworkImage(_stories[index]['imageUrl']!),
                               ),
@@ -289,7 +285,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         Positioned(
                           right: 0,
-                          bottom: 20, // Ajuste aquí para subir el icono "Add"
+                          bottom: 20,
                           child: CircleAvatar(
                             radius: 12,
                             backgroundColor: Colors.blue,
@@ -304,7 +300,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 } else {
-                  // Elementos siguientes: historias
                   final storyIndex = index;
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -339,7 +334,7 @@ class _HomePageState extends State<HomePage> {
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('tweets')
-                  .orderBy('timestamp', descending: true) // Ordenar por timestamp en orden descendente
+                  .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -372,7 +367,7 @@ class _HomePageState extends State<HomePage> {
                         leading: CircleAvatar(
                           radius: 30,
                           backgroundImage: NetworkImage(tweet
-                              .userProfileImageUrl), // Usar la URL de la imagen del tweet
+                              .userProfileImageUrl),
                         ),
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -422,7 +417,6 @@ class _HomePageState extends State<HomePage> {
                                 size: 16.0,
                               ),
                               onPressed: () {
-                                // Acción cuando se presiona el ícono de compartir
                               },
                             ),
                           ],
@@ -486,7 +480,6 @@ class _HomePageState extends State<HomePage> {
             size: 16.0,
           ),
           onPressed: () {
-            // Acción cuando se presiona el ícono
           },
         ),
         Text(

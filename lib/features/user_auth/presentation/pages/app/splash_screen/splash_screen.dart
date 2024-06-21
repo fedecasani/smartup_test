@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             SizedBox(height: 10),
             FaIcon(
-              FontAwesomeIcons.twitter, // Ícono de Twitter
+              FontAwesomeIcons.twitter,
               color: Colors.blue,
               size: 26.0,
             ),
