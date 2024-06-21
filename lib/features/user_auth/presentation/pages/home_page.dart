@@ -34,8 +34,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _fetchStoryData() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
     List<Map<String, String>> stories = [];
-    for (int i = 0; i < 10; i++) {
+    if (currentUser != null) {
+      // Obtener imagen del usuario actual
+      final imageUrl =
+          currentUser.photoURL ?? 'https://via.placeholder.com/150';
+      stories.add({
+        'name': 'Add',
+        'imageUrl': imageUrl,
+      });
+    }
+    for (int i = 0; i < 9; i++) {
       final response = await http.get(Uri.parse('https://randomuser.me/api/'));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -62,8 +72,9 @@ class _HomePageState extends State<HomePage> {
         id: FirebaseFirestore.instance.collection('tweets').doc().id,
         content: content,
         userId: user.uid,
-        userEmail:
-            user.email ?? '', // Asignar el correo electrónico del usuario
+        userEmail: user.email ?? '',
+        userProfileImageUrl:
+            user.photoURL ?? 'https://via.placeholder.com/150', // Nuevo campo
         timestamp: Timestamp.now(),
       );
       await FirebaseFirestore.instance
@@ -74,80 +85,82 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _showTweetDialog() {
-  String tweetContent = '';
+    String tweetContent = '';
 
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.grey[900],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        title: Text(
-          'Create Tweet',
-          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 20.0),
-        ),
-        content: Container(
-          width: double.maxFinite,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: 10.0),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                child: Form(
-                  child: TextFormField(
-                    style: TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: 'What\'s happening?',
-                      hintStyle: TextStyle(color: Colors.white70),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.grey[900],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          title: Text(
+            'Create Tweet',
+            style: TextStyle(
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0),
+          ),
+          content: Container(
+            width: double.maxFinite,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 10.0),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Form(
+                    child: TextFormField(
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: 'What\'s happening?',
+                        hintStyle: TextStyle(color: Colors.white70),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
+                      maxLines: 3,
+                      onChanged: (value) {
+                        tweetContent = value;
+                      },
                     ),
-                    maxLines: 3,
-                    onChanged: (value) {
-                      tweetContent = value;
-                    },
                   ),
                 ),
+                SizedBox(height: 20.0),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
-              SizedBox(height: 20.0),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: Colors.white, fontSize: 16.0),
             ),
-          ),
-          TextButton(
-            onPressed: () {
-              _createTweet(tweetContent);
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              'Tweet',
-              style: TextStyle(color: Colors.blue, fontSize: 16.0),
+            TextButton(
+              onPressed: () {
+                _createTweet(tweetContent);
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Tweet',
+                style: TextStyle(color: Colors.blue, fontSize: 16.0),
+              ),
             ),
-          ),
-        ],
-      );
-    },
-  );
-}
-
+          ],
+        );
+      },
+    );
+  }
 
   String _formatTimestamp(Timestamp timestamp) {
     final now = DateTime.now();
@@ -209,7 +222,14 @@ class _HomePageState extends State<HomePage> {
                 leading: Icon(Icons.home, color: Colors.blue),
                 title: Text('Home', style: TextStyle(color: Colors.blue)),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.pushNamed(context, "/home");
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.person, color: Colors.white),
+                title: Text('Profile', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.pushNamed(context, "/profile");
                 },
               ),
               ListTile(
@@ -234,90 +254,93 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           Container(
-  height: 100.0,
-  color: Colors.grey[900],
-  child: ListView.builder(
-    scrollDirection: Axis.horizontal,
-    itemCount: _stories.length + 1, // +1 para el círculo de perfil con "Add"
-    itemBuilder: (context, index) {
-      if (index == 0) {
-        // Primer elemento: círculo de perfil con "Add"
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Stack(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 31.0,
-                    backgroundColor: Colors.blue,
-                    child: CircleAvatar(
-                      radius: 28.0,
-                      // Aquí puedes colocar la imagen de perfil del usuario actual
-                      // Si no tienes una imagen específica, puedes usar un ícono predeterminado.
-                      backgroundImage: NetworkImage('URL_DE_LA_IMAGEN'),
+            height: 100.0,
+            color: Colors.grey[900],
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _stories.length,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  // Primer elemento: círculo de perfil con "Add"
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Stack(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 31.0,
+                              backgroundColor: Colors.blue,
+                              child: CircleAvatar(
+                                radius: 28.0,
+                                // Mostrar la imagen del usuario actual aquí
+                                backgroundImage:
+                                    NetworkImage(_stories[index]['imageUrl']!),
+                              ),
+                            ),
+                            SizedBox(height: 5.0),
+                            Text(
+                              'Add',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 12.0),
+                            ),
+                          ],
+                        ),
+                        Positioned(
+                          right: 0,
+                          bottom: 20, // Ajuste aquí para subir el icono "Add"
+                          child: CircleAvatar(
+                            radius: 12,
+                            backgroundColor: Colors.blue,
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 16.0,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(height: 5.0),
-                  Text(
-                    'Add',
-                    style: TextStyle(color: Colors.white, fontSize: 12.0),
-                  ),
-                ],
-              ),
-              Positioned(
-                right: 0,
-                bottom: 20, // Ajuste aquí para subir el icono "Add"
-                child: CircleAvatar(
-                  radius: 12,
-                  backgroundColor: Colors.blue,
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 16.0,
-                  ),
-                ),
-              ),
-            ],
+                  );
+                } else {
+                  // Elementos siguientes: historias
+                  final storyIndex = index;
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 31.0,
+                          backgroundColor: Colors.blue,
+                          child: CircleAvatar(
+                            radius: 28.0,
+                            backgroundImage:
+                                NetworkImage(_stories[storyIndex]['imageUrl']!),
+                          ),
+                        ),
+                        SizedBox(height: 5.0),
+                        Text(
+                          _stories[storyIndex]['name']!,
+                          style: TextStyle(color: Colors.white, fontSize: 12.0),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
           ),
-        );
-      } else {
-        // Elementos siguientes: historias
-        final storyIndex = index - 1;
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              CircleAvatar(
-                radius: 31.0,
-                backgroundColor: Colors.blue,
-                child: CircleAvatar(
-                  radius: 28.0,
-                  backgroundImage: NetworkImage(_stories[storyIndex]['imageUrl']!),
-                ),
-              ),
-              SizedBox(height: 5.0),
-              Text(
-                _stories[storyIndex]['name']!,
-                style: TextStyle(color: Colors.white, fontSize: 12.0),
-              ),
-            ],
-          ),
-        );
-      }
-    },
-  ),
-),
-
           Divider(
             color: Colors.grey[800],
             thickness: 1.0,
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection('tweets').snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection('tweets')
+                  .orderBy('timestamp', descending: true) // Ordenar por timestamp en orden descendente
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(
@@ -348,11 +371,8 @@ class _HomePageState extends State<HomePage> {
                         contentPadding: EdgeInsets.all(10),
                         leading: CircleAvatar(
                           radius: 30,
-                          backgroundImage: _stories.isNotEmpty
-                              ? NetworkImage(_stories[index % _stories.length]
-                                  ['imageUrl']!)
-                              : AssetImage(
-                                  'assets/placeholder_image.png'), // Placeholder or default image
+                          backgroundImage: NetworkImage(tweet
+                              .userProfileImageUrl), // Usar la URL de la imagen del tweet
                         ),
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -402,7 +422,7 @@ class _HomePageState extends State<HomePage> {
                                 size: 16.0,
                               ),
                               onPressed: () {
-                                // Action when share icon is pressed
+                                // Acción cuando se presiona el ícono de compartir
                               },
                             ),
                           ],

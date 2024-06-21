@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:smartup_test/features/user_auth/presentation/pages/app/splash_screen/splash_screen.dart';
 import 'package:smartup_test/features/user_auth/presentation/pages/home_page.dart';
 import 'package:smartup_test/features/user_auth/presentation/pages/login_page.dart';
+import 'package:smartup_test/features/user_auth/presentation/pages/profile_page.dart';
 import 'package:smartup_test/features/user_auth/presentation/pages/sign_up_page.dart';
 
 Future main() async {
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/register': (context) => SignUpPage(),
         '/home': (context) => HomePage(),
+        '/profile': (context) => ProfilePage(),
       },
     );
   }
