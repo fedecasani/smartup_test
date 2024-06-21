@@ -16,11 +16,11 @@ Este es un proyecto desarrollado para la empresa **SmartUp**. Consiste en una co
 - **Links a Políticas de Privacidad, Cookies y Olvidar Contraseña**: Incluidos en la aplicación para cumplir con regulaciones y facilitar el uso.
 - **Opciones en el Menú Hamburgesa**: Incluye opciones de Perfil y Logout.
 
-## Estructura del Proyecto
+## Ver app funcionando
 
 - **/screenrecording**: Contiene un enlace a Google Drive con:
-  - Video de la aplicación en funcionamiento.
-  - Video de la consola de Firebase.
+  - Video de la aplicación en funcionamiento. ( https://drive.google.com/file/d/1J5Y0O6kf0e5jA99Aqr2W7jcDHStv0LY1/view?usp=drive_link )
+  - Video de la consola de Firebase. ( https://drive.google.com/file/d/14CFTBkD0rNJ20VTVzup1E-8jLao8zW-L/view?usp=drive_link )
 - **/screenshots**: Contiene capturas de pantalla de la aplicación en funcionamiento.
 
 ## Requisitos Completados
@@ -67,6 +67,4 @@ Desarrollado por [Federico Casani](https://github.com/fedecasani).
 
 ## Licencia
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
-
----
+none
